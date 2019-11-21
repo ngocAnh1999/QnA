@@ -1,0 +1,60 @@
+.header {
+    height: 55px;
+    background-color: #008272;
+    /* color: #fff; */
+    font-size: 20px;
+    font-weight: 600;
+
+}
+
+.header div {
+    margin: auto 0;
+    padding-right: 0;
+    padding-left: 0;
+}
+.header .quanly {
+    float: right;
+    cursor: pointer;
+    background-color: #838282;
+}
+.header .dropdown-toggle::after {
+    margin: auto 4px;
+}
+.header .left {
+    display: flex;
+}
+
+.header .genaral {
+    text-align: center;
+    background: url("../../storage/image/logoQ-A.png") no-repeat center;
+    background-size: cover;
+    width: 40px;
+    height: 40px;
+    margin: 0 8px 0 20px;
+}
+
+.header .user {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+    margin-right: 20px;
+    
+}
+.user .user-drop {
+    width: 130px;
+}
+
+.genaral, .q-a, .avatar, .user-account:hover {
+    cursor: pointer;
+}
+
+.header .unit-name {
+    text-align: center;
+}
+/* .dropdown .dropdown-menu {
+    display: block;
+} */
+.dropdown > .dropdown-toggle:active {
+    /*Without this, clicking will make it sticky*/
+    pointer-events: none;
+}
