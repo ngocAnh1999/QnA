@@ -34,12 +34,13 @@ class QnAController extends Controller
         $session->name = $request->name;
         $session->mota = $request->mota;
         $session->time_start = $time_start;
-        $session->time_end = $time_start;
+        $session->time_end = $time_end;
         $session->save();
-        return view('qna.index',[
-            'sessions' => Auth::user()->sessions,
-            'now' => Carbon::now()
-        ]);
+        return redirect('qna');
+        // return view('qna.index',[
+        //     'sessions' => Auth::user()->sessions,
+        //     'now' => Carbon::now()
+        // ]);
     }
     public function delete(Request $request) {
 

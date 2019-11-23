@@ -37,9 +37,10 @@
         @enderror
     </div>
     <div class="row content mx-auto d-flex flex-column align-items-center">
-        @if($sessions == null)
+        @empty($sessions)
+            
         <div class="t_max text-center">Chưa có phiên nào!</div>
-        @else
+        @endempty
         <table class="table-bordered">
             <thead>
                 <tr class="bg-dark text-white">
@@ -82,7 +83,6 @@
                 @endforeach
             </tbody>
         </table>
-        @endif
     </div>
     <div id="addModal" class="modal fade" role="dialog">
             <div class="modal-dialog modal-dialog-centered">
@@ -140,59 +140,7 @@
           
             </div>
     </div>
-    <div id="editModal" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-dialog-centered">
-          
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title text-primary font-weight-bold">Sửa phiên</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <form action="" method="post">
-                    <div class="modal-body d-flex flex-column">
-                        <label for="">Tên phiên:</label>
-                        <input type="text" name="edit_name" id=""/>
-                        <label for="">Mô tả:</label>
-                        <textarea style="resize:none" name="edit_mota" id="" cols="30" rows="5"></textarea>
-                        <label for="">Time start:</label>
-                        <input type="datetime" name="edit_start" id="" placeholder="hh:mm dd/mm/yyyy"/>
-                        <label for="">Time end:</label>
-                        <input type="datetime" name="edit_end" id="" placeholder="hh:mm dd/mm/yyyy">
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Save</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </form>
-              </div>
-          
-            </div>
-    </div>
-    <div id="deleteModal" class="modal fade" aria-labelledby="deleteModal" role="dialog">
-            <div class="modal-dialog modal-dialog-centered">
-          
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title text-primary font-weight-bold">Cảnh báo xóa phiên</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                {{-- <form action="{{ route('deleteSession') }}" method="post">
-                    @csrf
-                    <div class="modal-body">
-                        Bạn có chắc chắn muốn xóa phiên <span>ABC</span> không?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-danger" disabled>Xóa</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </form> --}}
-              </div>
-          
-            </div>
-    </div>
+    
     
 </div>
 
