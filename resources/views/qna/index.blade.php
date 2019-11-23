@@ -93,12 +93,12 @@
                     <h4 class="modal-title text-primary font-weight-bold">Thêm phiên</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="{{ route('add') }}" method="post">
+                <form action="{{ route('addSession') }}" method="post">
                     @csrf
                     <div class="modal-body d-flex flex-column">
                         <label for="">Tên phiên:</label>
                         <div>
-                            <input type="text" name="name" class="w-75" value = "{{ old('name') }}"/>
+                            <input onkeyup="javascript:validate(this);" type="text" name="name" class="w-75" value = "{{ old('name') }}"/>
                             <span class="text-danger">&nbsp;(*)</span>
                         </div>
                         @error('name')
@@ -140,6 +140,7 @@
           
             </div>
     </div>
+<<<<<<< HEAD
 <<<<<<< HEAD
     
 =======
@@ -198,6 +199,9 @@
             </div>
     </div>
 >>>>>>> 6c42c6e3182d96791d29464e6b1aab014b5761f4
+=======
+    <script src="{{ asset('js/qna/index.js') }}" ></script>
+>>>>>>> 5ca0a4dd2d81b15288faff663fb381995a0d42b8
     
 </div>
 
