@@ -93,7 +93,7 @@
                     <h4 class="modal-title text-primary font-weight-bold">Thêm phiên</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="{{ route('addSession') }}" method="post">
+                <form action="{{ route('add') }}" method="post">
                     @csrf
                     <div class="modal-body d-flex flex-column">
                         <label for="">Tên phiên:</label>
@@ -149,7 +149,8 @@
                     <h4 class="modal-title text-primary font-weight-bold">Sửa phiên</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="" method="post">
+                <form action="#" method="post">
+                    @csrf
                     <div class="modal-body d-flex flex-column">
                         <label for="">Tên phiên:</label>
                         <input type="text" name="edit_name" id=""/>
@@ -179,7 +180,7 @@
                     <h4 class="modal-title text-primary font-weight-bold">Cảnh báo xóa phiên</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                {{-- <form action="{{ route('deleteSession') }}" method="post">
+                <form action="{{ route('deleteSession') }}" method="post">
                     @csrf
                     <div class="modal-body">
                         Bạn có chắc chắn muốn xóa phiên <span>ABC</span> không?
@@ -188,7 +189,7 @@
                         <button type="submit" class="btn btn-danger" disabled>Xóa</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
-                </form> --}}
+                </form>
               </div>
           
             </div>
