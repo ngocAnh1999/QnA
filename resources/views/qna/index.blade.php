@@ -106,7 +106,7 @@
                         @enderror
                         <label for="">Mô tả:</label>
                         <div>
-                        <textarea style="resize:none" class="w-75" name="mota" value="{{ old('mota') }}" cols="30" rows="5"></textarea>
+                        <textarea onkeyup="javascript:validate(this);" style="resize:none" class="w-75" name="mota" value="{{ old('mota') }}" cols="30" rows="5"></textarea>
                             <span class="text-danger">&nbsp;(*)</span>
                         </div>
                         @error('mota')
@@ -114,7 +114,7 @@
                         @enderror
                         <label for="">Time start:</label>
                         <div>
-                            <input type="datetime" class="w-75" name="time_start" value = "{{ old('time_start') }}" placeholder="H:i dd-mm-yyyy"/>
+                            <input onkeyup="javascript:validate(this);" type="datetime" class="w-75" name="time_start" value = "{{ old('time_start') }}" placeholder="H:i dd-mm-yyyy"/>
                             <span class="text-danger">&nbsp;(*)</span>
                         </div>
                         @error('time_start')
@@ -122,17 +122,16 @@
                         @enderror
                         <label for="">Time end:</label>
                         <div>
-                            <input type="datetime" class="w-75" name="time_end" value="{{ old('time_end') }}" placeholder="H:i dd-mm-yyyy">
+                            <input onkeyup="javascript:validate(this);" type="datetime" class="w-75" name="time_end" value="{{ old('time_end') }}" placeholder="H:i dd-mm-yyyy">
                             <span class="text-danger">&nbsp;(*)</span>
                         </div>
+                        <span class="text-danger d-none"></span>
                         @error('time_end')
                             <span class="text-danger"><strong>{{ $message }}</strong></span>
                         @enderror
 
-
-                    </textarea>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Save</button>
+                        <button type="submit" id="" class="btn btn-success">Save</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </form>
