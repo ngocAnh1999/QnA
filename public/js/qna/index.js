@@ -1,8 +1,9 @@
 
 function validate(me) {
 	if(me.value != "") {
-		me.value = me.value.toLowerCase();
-		me.value = me.value.trim();
+    me.value = me.value.toLowerCase();
+    // hàm validate dùng sự kiện onkeyup nên không được dùng hàm strim()
+		// me.value = me.value.trim();
 		me.value.charAt(0).toUpperCase() + me.value.slice(1);
 
 		document.getElementById("btn-add").removeAttribute("disabled");

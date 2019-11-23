@@ -40,15 +40,17 @@ class QnAController extends Controller
     }
     public function delete(Request $request) {
         $session = new Session;
-        $session->find($request->del_id)->delete();
+        $session->findOrFail($request->del_id)->delete();
         return redirect('qna');
     }
     public function edit(Request $request) {
-        $session = Session::where('id', $request->id)
-                    ->update(['name'=>$request->name],
-                            ['mota'=>$request->mota],
-                            ['time_start'=>$request->time_start],
-                            ['time_end'=>$request->time_end]);
+        $id = $request->id;
+        $session = Session::find($id);
+        $session->name = $request->name;
+        $session->mota = $request->mota;
+        $session->time_start = \DateTime::createFromFormat("H:i d-m-Y", $request->time_start);
+        $session->time_end = \DateTime::createFromFormat("H:i d-m-Y", $request->time_end);
+        $session->save();
         return redirect('qna');
     }
 }
