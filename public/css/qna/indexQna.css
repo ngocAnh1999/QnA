@@ -2,3 +2,6 @@
     font-size: 13px !important;
     background-color: #FFF;
 }
+.td-name, .td-mota {
+    width: 300px;
+}
