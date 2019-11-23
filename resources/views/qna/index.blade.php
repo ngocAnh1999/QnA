@@ -5,17 +5,22 @@
 
 @section('content')
 @push('styles')
-    <link href="{{ asset('css/qna/indexQna.css') }}" rel="stylesheet">
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="{{ asset('css/qna/indexQna.css') }}" rel="stylesheet">
 @endpush
 <div class="body-content">
     <div class="row toolbar border-bottom d-flex justify-content-between align-content-center px-0">
             <div class="form-group">
-                <select class="btn list-session h-100">
-                        <option class="m-8" value="all" disabled selected>Các phiên của tôi</option>
+                <select class="btn list-session h-100 shadow">
+                    <option class="m-8" value="all" >Tất cả các phiên</option>
+                    <option class="m-8" value="activated" >Phiên đang hoạt động</option>
+                    <option class="m-8" value="closed" >Phiên đã đóng</option>
+                    <option class="m-8" value="my-session" selected>Các phiên của tôi</option>
+
                 </select>
             </div>
             <form class="search-cls" action="#" method="post">
+                @csrf
                     <input class="h-100" name="search" placeholder="Tìm kiếm" />
                     <button class="ml-2 px-4 btn btn-success h-100" type="submit"><span class="glyphicon glyphicon-search"></span></button>
             </form>
@@ -54,15 +59,25 @@
                     <td>{{ $session->name }}</td>
                     <td>{{ $session->time_start }}</td>
                     <td>{{ $session->time_end }}</td>
-                    @if((new \DateTime($session->time_start))->getTimestamp() - $now->getTimestamp() >0)
-                    <td>chưa mở</td>
-                    @elseif((new \DateTime($session->time_end))->getTimestamp() - $now->getTimestamp() < 0)
-                    <td>đã đóng</td>
+                    <td>
+                    @if ((new \DateTime($session->time_start))->getTimestamp() - $now->getTimestamp() >0)
+                        chưa mở
+                    @elseif ((new \DateTime($session->time_end))->getTimestamp() - $now->getTimestamp() < 0)
+                        đã đóng
                     @else
-                    <td>đang hoạt động</td>
+                        đang hoạt động
                     @endif
-                    <td><span onclick="" data-toggle="modal" data-target="#editModal" class="glyphicon glyphicon-pencil"></span></td>
-                    <td><span onclick="" data-toggle="modal" data-target="#deleteModal" class="glyphicon glyphicon-trash"></span></td>
+                    </td>
+                    <td>
+                        <button class="btn bg-white" data-toggle="modal" data-target="#editModal">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn bg-white" data-toggle="modal" data-target="#deleteModal">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
@@ -137,7 +152,7 @@
                 <form action="" method="post">
                     <div class="modal-body d-flex flex-column">
                         <label for="">Tên phiên:</label>
-                        <input type="text" name="edit_name" id="" autofocus/>
+                        <input type="text" name="edit_name" id=""/>
                         <label for="">Mô tả:</label>
                         <textarea style="resize:none" name="edit_mota" id="" cols="30" rows="5"></textarea>
                         <label for="">Time start:</label>
@@ -155,7 +170,7 @@
           
             </div>
     </div>
-    <div id="deleteModal" class="modal fade" role="dialog">
+    <div id="deleteModal" class="modal fade" aria-labelledby="deleteModal" role="dialog">
             <div class="modal-dialog modal-dialog-centered">
           
               <!-- Modal content-->
@@ -164,15 +179,16 @@
                     <h4 class="modal-title text-primary font-weight-bold">Cảnh báo xóa phiên</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="" method="post">
+                {{-- <form action="{{ route('deleteSession') }}" method="post">
+                    @csrf
                     <div class="modal-body">
                         Bạn có chắc chắn muốn xóa phiên <span>ABC</span> không?
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-danger">Xóa</button>
+                        <button type="submit" class="btn btn-danger" disabled>Xóa</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
-                </form>
+                </form> --}}
               </div>
           
             </div>
