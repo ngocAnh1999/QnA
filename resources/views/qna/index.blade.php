@@ -36,6 +36,7 @@
             </script>
         @enderror
     </div>
+    
     <div class="row content mx-auto d-flex flex-column align-items-center">
         @empty($sessions)
             
@@ -46,6 +47,7 @@
                 <tr class="bg-dark text-white">
                     <th scope="col">STT</th>
                     <th scope="col">Session name</th>
+                    <th scope="col">Session mô tả</th>
                     <th scope="col">Time start</th>
                     <th scope="col">Time end</th>
                     <th scope="col">Status</th>
@@ -55,9 +57,10 @@
             </thead>
             <tbody>
                 @foreach($sessions as $i => $session)
-                <tr>
+                <tr property="{{ $session->id }}">
                     <td>{{ $i+1 }}</td>
-                    <td>{{ $session->name }}</td>
+                    <td class="td-name px-4 text-left">{{ $session->name }}</td>
+                    <td class="td-mota px-4 text-left">{{ $session->mota }}</td>
                     <td>{{ $session->time_start }}</td>
                     <td>{{ $session->time_end }}</td>
                     <td>
@@ -70,12 +73,12 @@
                     @endif
                     </td>
                     <td>
-                        <button class="btn bg-white" data-toggle="modal" data-target="#editModal">
+                        <button onclick="javascript:EditModal(this)" class="btn bg-white" data-toggle="modal" data-target="#editModal">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </button>
                     </td>
                     <td>
-                        <button class="btn bg-white" data-toggle="modal" data-target="#deleteModal">
+                        <button onclick="javascript:DeleteModal(this);" class="btn bg-white" data-toggle="modal" data-target="#deleteModal">
                             <span class="glyphicon glyphicon-trash"></span>
                         </button>
                     </td>
@@ -83,8 +86,7 @@
                 @endforeach
             </tbody>
         </table>
-    </div>
-    <div id="addModal" class="modal fade" role="dialog">
+        <div id="addModal" class="modal fade" role="dialog">
             <div class="modal-dialog modal-dialog-centered">
           
               <!-- Modal content-->
@@ -129,7 +131,7 @@
                         @error('time_end')
                             <span class="text-danger"><strong>{{ $message }}</strong></span>
                         @enderror
-
+                    </div>
                     <div class="modal-footer">
                         <button type="submit" id="" class="btn btn-success">Save</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -138,8 +140,88 @@
               </div>
           
             </div>
+        </div>
+        <div id="editModal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+          
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-primary font-weight-bold">Sửa phiên</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <form action="{{ route('editSession') }}" method="post">
+                    @csrf
+                    <div id="edit-modal" class="modal-body d-flex flex-column">
+                        <label for="">Tên phiên:</label>
+                        <div>
+                            <input onkeyup="javascript:validate(this);" type="text" name="name" class="e-name w-75" value = "{{ old('name') }}"/>
+                            <span class="text-danger">&nbsp;(*)</span>
+                        </div>
+                        @error('name')
+                            <span class="text-danger"><strong>{{ $message }}</strong></span>
+                        @enderror
+                        <label for="">Mô tả:</label>
+                        <div>
+                        <textarea onkeyup="javascript:validate(this);" style="resize:none" class="e-mota w-75" name="mota" value="{{ old('mota') }}" cols="30" rows="5"></textarea>
+                            <span class="text-danger">&nbsp;(*)</span>
+                        </div>
+                        @error('mota')
+                            <span class="text-danger"><strong>{{ $message }}</strong></span>
+                        @enderror
+                        <label for="">Time start:</label>
+                        <div>
+                            <input onkeyup="javascript:validate(this);" type="datetime" class="e-start w-75" name="time_start" value = "{{ old('time_start') }}" placeholder="H:i dd-mm-yyyy"/>
+                            <span class="text-danger">&nbsp;(*)</span>
+                        </div>
+                        @error('time_start')
+                            <span class="text-danger"><strong>{{ $message }}</strong></span>
+                        @enderror
+                        <label for="">Time end:</label>
+                        <div>
+                            <input onkeyup="javascript:validate(this);" type="datetime" class="e-end w-75" name="time_end" value="{{ old('time_end') }}" placeholder="H:i dd-mm-yyyy">
+                            <span class="text-danger">&nbsp;(*)</span>
+                        </div>
+                        <span class="text-danger d-none"></span>
+                        @error('time_end')
+                            <span class="text-danger"><strong>{{ $message }}</strong></span>
+                        @enderror
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Save</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+              </div>
+          
+            </div>
+        </div>
+        <div id="deleteModal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+          
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-primary font-weight-bold">Cảnh báo xóa phiên</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <form action="{{ route('deleteSession') }}" method="post">
+                    @csrf
+                    <div class="modal-body d-flex flex-column">
+                        <p>Bạn có chắc chắn muốn xóa phiên "<span id="del-name"></span>"?</p>
+                        <input class="d-none" id="del-id" name="del_id" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">Xóa</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+              </div>
+          
+            </div>
+        </div>
     </div>
-
+    
     <script src="{{ asset('js/qna/index.js') }}" ></script>
 
     

@@ -43,10 +43,11 @@ class QnAController extends Controller
         // ]);
     }
     public function delete(Request $request) {
-
-        return view('qna.index',[
-            'sessions' => Auth::user()->sessions,
-            'now' => Carbon::now()
-        ]);
+        $session = new Session;
+        $session->find($request->del_id)->delete();
+        return redirect('qna');
+    }
+    public function edit(Request $request) {
+        return redirect('qna');
     }
 }
