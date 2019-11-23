@@ -61,8 +61,8 @@
                     <td>{{ $i+1 }}</td>
                     <td class="td-name px-4 text-left">{{ $session->name }}</td>
                     <td class="td-mota px-4 text-left">{{ $session->mota }}</td>
-                    <td>{{ $session->time_start }}</td>
-                    <td>{{ $session->time_end }}</td>
+                    <td>{{ (new \DateTime($session->time_start))->format('H:i d-m-Y') }}</td>
+                    <td>{{ (new \DateTime($session->time_end))->format('H:i d-m-Y') }}</td>
                     <td>
                     @if ((new \DateTime($session->time_start))->getTimestamp() - $now->getTimestamp() >0)
                         chưa mở
@@ -153,39 +153,31 @@
                 <form action="{{ route('editSession') }}" method="post">
                     @csrf
                     <div id="edit-modal" class="modal-body d-flex flex-column">
+                        <input name="id" class="e-id d-none" />
                         <label for="">Tên phiên:</label>
                         <div>
                             <input onkeyup="javascript:validate(this);" type="text" name="name" class="e-name w-75" value = "{{ old('name') }}"/>
                             <span class="text-danger">&nbsp;(*)</span>
                         </div>
-                        @error('name')
-                            <span class="text-danger"><strong>{{ $message }}</strong></span>
-                        @enderror
                         <label for="">Mô tả:</label>
                         <div>
                         <textarea onkeyup="javascript:validate(this);" style="resize:none" class="e-mota w-75" name="mota" value="{{ old('mota') }}" cols="30" rows="5"></textarea>
                             <span class="text-danger">&nbsp;(*)</span>
                         </div>
-                        @error('mota')
-                            <span class="text-danger"><strong>{{ $message }}</strong></span>
-                        @enderror
+                        
                         <label for="">Time start:</label>
                         <div>
                             <input onkeyup="javascript:validate(this);" type="datetime" class="e-start w-75" name="time_start" value = "{{ old('time_start') }}" placeholder="H:i dd-mm-yyyy"/>
                             <span class="text-danger">&nbsp;(*)</span>
                         </div>
-                        @error('time_start')
-                            <span class="text-danger"><strong>{{ $message }}</strong></span>
-                        @enderror
+                        
                         <label for="">Time end:</label>
                         <div>
                             <input onkeyup="javascript:validate(this);" type="datetime" class="e-end w-75" name="time_end" value="{{ old('time_end') }}" placeholder="H:i dd-mm-yyyy">
                             <span class="text-danger">&nbsp;(*)</span>
                         </div>
                         <span class="text-danger d-none"></span>
-                        @error('time_end')
-                            <span class="text-danger"><strong>{{ $message }}</strong></span>
-                        @enderror
+                        
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Save</button>

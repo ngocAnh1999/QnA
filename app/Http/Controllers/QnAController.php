@@ -12,7 +12,7 @@ class QnAController extends Controller
     //
     public function index() {
         $user = Auth::user();
-        $sessions = $user->sessions;
+        $sessions = $user->sessions->where('type_id', 1);
         $now = Carbon::now();
         return view('qna.index',[
             'sessions' => $sessions,
@@ -37,10 +37,6 @@ class QnAController extends Controller
         $session->time_end = $time_end;
         $session->save();
         return redirect('qna');
-        // return view('qna.index',[
-        //     'sessions' => Auth::user()->sessions,
-        //     'now' => Carbon::now()
-        // ]);
     }
     public function delete(Request $request) {
         $session = new Session;
@@ -48,6 +44,11 @@ class QnAController extends Controller
         return redirect('qna');
     }
     public function edit(Request $request) {
+        $session = Session::where('id', $request->id)
+                    ->update(['name'=>$request->name],
+                            ['mota'=>$request->mota],
+                            ['time_start'=>$request->time_start],
+                            ['time_end'=>$request->time_end]);
         return redirect('qna');
     }
 }
