@@ -43,5 +43,7 @@ class User extends Authenticatable
     public function pickAnswers() {
         return $this->belongsToMany(Answer::class)->withTimestamps();
     }
-
+    public function questions() {
+        return $this->hasMany(Question::class);
+    }
 }
