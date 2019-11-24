@@ -15,7 +15,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
+    
     <!-- Styles -->
     @stack('styles')
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -40,11 +40,11 @@
                 @else
                 <div class="col">
                     <div class="quanly nav-link dropdown-toggle p-3 shadow-lg" data-toggle="dropdown">Quản lý</div>
-                        <ul class="dropdown-menu dropdown-menu-right px-4">
-                            <li role="presentation" class="text-left"><a role="menuitem" href="{{ route('qna') }}">Phiên hỏi đáp</a></li>
-                            <li class="dropdown-divider"></li>
-                            <li role="presentation" class="text-left"><a role="menuitem" href="{{ route('survey') }}">Phiên khảo sát</a></li>
-                        </ul>
+                    <ul class="dropdown-menu dropdown-menu-right px-4">
+                        <li role="presentation" class="text-left"><a role="menuitem" href="{{ route('qna','all') }}">Phiên hỏi đáp</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li role="presentation" class="text-left"><a role="menuitem" href="{{ route('survey') }}">Phiên khảo sát</a></li>
+                    </ul>
                 </div>
 
                 <div class="col-md-2 user">
@@ -72,8 +72,6 @@
         <main class="py-4">
             @yield('content')
         </main>
-        
-
     </div>
 </body>
 </html>

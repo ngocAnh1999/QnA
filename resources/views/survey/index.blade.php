@@ -9,7 +9,7 @@
     <div class="row toolbar border-bottom d-flex justify-content-between align-content-center px-0">
         <nav class="navbar navbar-expand-sm bg-white navbar-white"> 
             <ul class="navbar-nav">
-                <li class="nav-item dropdown">
+                <li class="nav-item">
                   <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
                     Các phiên </a>
                   <div class="dropdown-menu">
@@ -32,8 +32,9 @@
     </div>
     <div class="row content mx-auto d-flex flex-column align-items-center">
         @empty($sessions)          
-        <div class="t_max text-center">Chưa có phiên nào!</div>
+        <div class="t_max text-secondary">Chưa có phiên nào!</div>
         @endempty
+        @if(isset($sessions))
         <table class="table-bordered">
             <thead>
                 <tr class="bg-dark text-white">
@@ -47,6 +48,7 @@
                 </tr>
             </thead>
         </table>
+        @endif
     </div>
 </div>
 @endsection

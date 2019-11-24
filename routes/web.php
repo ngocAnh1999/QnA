@@ -19,9 +19,11 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/survey', 'SurveyController@index')->name('survey');
-Route::get('/qna', 'QnAController@index')->name('qna');
+// Route::get('/qna', 'QnAController@index')->name('qna');
+Route::get('/qna/{select}','QnAController@index')->name('qna');
 Route::post('/qna/add', 'QnAController@create')->name('addSession');
 Route::post('/qna/del', 'QnAController@delete')->name('deleteSession');
 Route::post('/qna/edit', 'QnAController@edit')->name('editSession');
 Route::get('/survey/create', 'SurveyController@create')->name('createSurvey');
 Route::get('/qna/session/{id}', 'SessionController@show')->name('showQuestion');
+Route::post('/qna/session/{id}/add', 'SessionController@create')->name('addQuestion');

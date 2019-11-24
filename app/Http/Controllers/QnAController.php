@@ -5,20 +5,74 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use DB;
 use App\Session;
-
 class QnAController extends Controller
 {
     //
-    public function index() {
-        $user = Auth::user();
-        $sessions = $user->sessions->where('type_id', 1);
+    public function index(string $select) {
+        $me = $this;
         $now = Carbon::now('Asia/Ho_Chi_Minh');
+        $session = null;
+        switch($select) {
+            case 'all': {
+                $session = $me->all();
+            break;
+            }
+            case 'own': {
+                $session = $me->own();
+            break;
+            }
+            case 'activated': {
+                $session = $me->activated($now);
+            break;
+            }
+            case 'closed': {
+                $session = $me->closed($now);
+            break;
+            }
+        }
         return view('qna.index',[
-            'sessions' => $sessions,
+            'sessions' => $session,
             'now' => $now
         ]);
     }
+    public function all() {
+        $session = DB::table('sessions')
+                        ->where('type_id', 1)
+                        ->orderBy('updated_at', 'desc')
+                        ->get();
+        return $session;
+    }
+    public function own() {
+        $user = Auth::user();
+        $session = $user->sessions->where('type_id', 1);
+        return $session;
+    }
+    public function activated($now) {
+        $session = DB::table('sessions')
+                    ->where([
+                        ['type_id','=', 1],
+                        ['time_start','<=',$now],
+                        ['time_end','>=',$now]
+                    ])
+                    ->orderBy('updated_at', 'desc')
+                    ->get();
+        return $session;
+
+    }
+    public function closed($now) {
+        $session = DB::table('sessions')
+                    ->where([
+                        ['type_id','=', 1],
+                        ['time_end','<',$now]
+                    ])
+                    ->orderBy('updated_at', 'desc')
+                    ->get();
+        return $session;
+
+    }
+
     public function create(Request $request) {
         $this->validate($request, [
             'name'=>'required|string|max:255',

@@ -1,4 +1,4 @@
-function submitQuestion(me) {
+function submited(me) {
     debugger
-    me.querySelectorAll("form")[0].submit();
+    me.submit();
 }
