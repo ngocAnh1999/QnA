@@ -23,3 +23,4 @@ Route::get('/qna', 'QnAController@index')->name('qna');
 Route::post('/qna/add', 'QnAController@create')->name('addSession');
 Route::post('/qna/del', 'QnAController@delete')->name('deleteSession');
 Route::post('/qna/edit', 'QnAController@edit')->name('editSession');
+Route::get('/qna/session/{id}', 'SessionController@show')->name('showQuestion');

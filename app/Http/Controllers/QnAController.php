@@ -13,7 +13,7 @@ class QnAController extends Controller
     public function index() {
         $user = Auth::user();
         $sessions = $user->sessions->where('type_id', 1);
-        $now = Carbon::now();
+        $now = Carbon::now('Asia/Ho_Chi_Minh');
         return view('qna.index',[
             'sessions' => $sessions,
             'now' => $now
