@@ -13,9 +13,8 @@
         <div class="row toolbar border-bottom d-flex justify-content-between align-content-center px-0">
             <div class="">
                 <!-- toolbar -->
-                <a> Phiên hỏi đáp
-                    <span class=" glyphicon glyphicon-chevron-right"></span>
-                Câu hỏi </a>
+                <a href="#"> Phiên hỏi đáp</a>
+                    <span class="glyphicon glyphicon-chevron-right">&nbsp;Câu hỏi</span>
             </div>
             <form class=" search-cls" action="http://127.0.0.1:8000/qna#" method="post">
                         <input type="hidden" name="_token" value="ZgU7Yorh1VFOkX8Snm3bIC9WngMAPQOYiOU7N7Jw"> <input
@@ -33,44 +32,50 @@
         </div>
         <div class="row content mx-auto d-flex flex-column align-items-center">
             <!--nd content  -->
-            <div onclick="javascript:submitQuestion(this);"
-            class="wrap-content p-3 border bg-light d-flex justify-content-between w-75">
-                <div class="d-flex align-items-start flex-column bd-highlight mb-3" style="height: 150px;">
-                    <div class="mb-auto p-2 bd-highlight">
-                        <div class="user-account d-flex mr-4">
-                            <div class="avatar">
-                                <img class="rounded-circle"
-                                    src="{{ asset('storage/image/default_avata.png') }}" />
+            @if (!isset($questions))
+                <div class="text-secondary t_max">Chưa có câu hỏi nào!!!</div>
+            @else
+            @foreach ($questions as $i => $question)
+                <div onclick="javascript:submitQuestion(this);"
+                class="wrap-content p-3 border bg-light d-flex justify-content-between w-75">
+                    <div class="d-flex align-items-start flex-column bd-highlight mb-3" style="height: 150px;">
+                        <div class="mb-auto p-2 bd-highlight">
+                            <div class="user-account d-flex mr-4">
+                                <div class="avatar">
+                                    <img class="rounded-circle"
+                                        src="{{ asset('storage/image/default_avata.png') }}" />
+                                </div>
+                                <a class="my-auto" href="#">{{ $question->name }}</a>
                             </div>
-                            <a class="my-auto" href="#">User 5</a>
+                        </div>
+                        <div class="mb-5 p-3 bd-highlight">
+                            <p name="title" class="text-lg-left text-primary">[Chủ đề]:&nbsp;<span>{{ $question->title }}</span></p>
+                            <p name="content" >{{ $question->content }}</p>
+                            <p class="text-small text-secondary">Cập nhật lúc: {{ (new \DateTime($question->updated_at))->format('H:i d-m-Y') }}</p>
                         </div>
                     </div>
-                    <div class="mb-5 p-3 bd-highlight">
-                        <p>[Chủ đề]:&nbsp;<span>Tên chủ đề</span></p>
-                        <a>Nội dung câu hỏi</a>
-
+                    <div class="d-flex align-items-end flex-column bd-highlight mb-3" style="height: 150px;">
+                        <div class="p-2 bd-highlight">
+                            <button onclick="javascript:editModal(this)" class="btn bg-white  h-100"
+                                data-toggle="modal" data-target="#editModal">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </button>
+                            
+                            <button onclick="javascript:deleteModal(this);" class="btn bg-white h-100"
+                                data-toggle="modal" data-target="#deleteModal">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </div>
+                        <div class="mt-auto  bd-highlight">
+                            <p>Trạng thái:&nbsp;<span>Chủ tọa đã trả lời</span></p>
+                        </div>
                     </div>
-                </div>
-                <div class="d-flex align-items-end flex-column bd-highlight mb-3" style="height: 150px;">
-                    <div class="p-2 bd-highlight">
-                        <button onclick="javascript:EditModal(this)" class="btn bg-white  h-100"
-                            data-toggle="modal" data-target="#editModal">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                        </button>
+                    <form class="d-none" action="#" method="get">
                         
-                        <button onclick="javascript:DeleteModal(this);" class="btn bg-white h-100"
-                            data-toggle="modal" data-target="#deleteModal">
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </button>
-                    </div>
-                    <div class="mt-auto  bd-highlight">
-                        <p>Trạng thái:&nbsp;<span>Chủ tọa đã trả lời</span></p>
-                    </div>
+                    </form>
                 </div>
-                <form class="d-none" action="#" method="get">
-                    
-                </form>
-            </div>
+            @endforeach
+            @endif
         </div>
 
         <div id="addModal" class="modal fade" role="dialog">
