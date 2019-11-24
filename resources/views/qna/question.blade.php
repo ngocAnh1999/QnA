@@ -170,6 +170,6 @@
 
             </div>
         </div>
-
+    <script src="{{ asset('js/qna/question.js') }}"></script>
 </div>
 @endsection
