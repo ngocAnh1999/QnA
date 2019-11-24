@@ -59,14 +59,16 @@
                 @foreach($sessions as $i => $session)
                 <tr property="{{ $session->id }}">
                     <td>{{ $i+1 }}</td>
-                    <td class="td-name px-4 text-left">{{ $session->name }}</td>
+                    <td class="td-name px-4 text-left">
+                        <a href="{{ route('showQuestion', $session->id) }}">{{ $session->name }}</a>
+                    </td>
                     <td class="td-mota px-4 text-left">{{ $session->mota }}</td>
                     <td>{{ (new \DateTime($session->time_start))->format('H:i d-m-Y') }}</td>
                     <td>{{ (new \DateTime($session->time_end))->format('H:i d-m-Y') }}</td>
                     <td>
-                    @if ((new \DateTime($session->time_start))->getTimestamp() - $now->getTimestamp() >0)
+                    @if ((new \DateTime($session->time_start,new DateTimeZone('Asia/Ho_Chi_Minh')))->getTimestamp() - $now->getTimestamp() >0)
                         chưa mở
-                    @elseif ((new \DateTime($session->time_end))->getTimestamp() - $now->getTimestamp() < 0)
+                    @elseif ((new \DateTime($session->time_end,new DateTimeZone('Asia/Ho_Chi_Minh')))->getTimestamp() - $now->getTimestamp() < 0)
                         đã đóng
                     @else
                         đang hoạt động
