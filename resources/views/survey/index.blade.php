@@ -2,37 +2,36 @@
 @section('title', 'Phiên khảo sát')
 @section('content')
 @push('styles')
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
     <link href="{{ asset('css/survey/indexSurvey.css') }}" rel="stylesheet">
 @endpush
-<div class="body-content">
+<div class="body-content">    
     <div class="row toolbar border-bottom d-flex justify-content-between align-content-center px-0">
-        <div class="form-group">
-            <select class="btn list-session h-100 shadow">
-                <option class="m-8" value="all" >Tất cả các phiên</option>
-                <option class="m-8" value="activated" >Phiên đang hoạt động</option>
-                <option class="m-8" value="closed" >Phiên đã đóng</option>
-                <option class="m-8" value="my-session" selected>Các phiên của tôi</option>
-            </select>
-        </div>
-            <form class="search-cls" action="#" method="post">
-                @csrf
-                    <input class="h-100" name="search" placeholder="Tìm kiếm" />
-                    <button class="ml-2 px-4 btn btn-success h-100" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-            </form>
-    </div>
-    <div class="row px-4 py-2">
-        <button data-toggle="modal" data-target="#addModal" class="btn btn-success rounded-circle">
-            <span class="glyphicon glyphicon-plus"></span>
-        </button>
-        @error('time_start')
-            <script>
-                alert("lỗi !!!!");
-            </script>
-        @enderror
+        <nav class="navbar navbar-expand-sm bg-white navbar-white"> 
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    Các phiên </a>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Tất cả các phiên</a>
+                    <a class="dropdown-item" href="#">Phiên đang hoạt động</a>
+                    <a class="dropdown-item" href="#">Phiên đã đóng</a>
+                    <a class="dropdown-item" href="#">Các phiên của tôi</a>
+                  </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('createSurvey') }}">Tạo phiên khảo sát mới</a>
+                </li>
+            </ul>
+        </nav>
+        <form class="search-cls" action="#" method="post">
+            @csrf
+                <input class="h-100" name="search" placeholder="Tìm kiếm" />
+                <button class="ml-2 px-4 btn btn-success h-100" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+        </form> 
     </div>
     <div class="row content mx-auto d-flex flex-column align-items-center">
-        @empty($sessions)
-            
+        @empty($sessions)          
         <div class="t_max text-center">Chưa có phiên nào!</div>
         @endempty
         <table class="table-bordered">
@@ -50,5 +49,4 @@
         </table>
     </div>
 </div>
-
 @endsection

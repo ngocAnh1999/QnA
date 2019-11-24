@@ -10,4 +10,7 @@ class SurveyController extends Controller
     public function index() {
         return view('survey.index');
     }
+    public function create() {
+    	return view('survey.createSurvey');
+    }
 }
