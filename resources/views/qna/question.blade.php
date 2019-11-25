@@ -15,7 +15,7 @@
                 <!-- toolbar -->
                 <a href="{{ route('qna','all') }}"> Phiên hỏi đáp&nbsp;</a>
                 <span class="glyphicon glyphicon-chevron-right"></span>
-                <p>&nbsp;Câu hỏi</p>
+                <p class="text-secondary">&nbsp;{{ $session->name }}</p>
             </div>
             <form class=" search-cls" action="#" method="post">
                 @csrf
@@ -38,10 +38,9 @@
                 <div class="text-secondary t_max">Chưa có câu hỏi nào!!!</div>
             @else
             @foreach ($questions as $i => $question)
-                <div class="wrap-content p-3 border bg-light d-flex justify-content-between w-75">
+            <div id="wrap_{{$i}}" class="wrap-content p-3 border bg-light d-flex justify-content-between w-75">
 
-                    <form action="{{ route('qna','all') }}" method="GET" onclick="javascript:submited(this);"
-                    class="d-flex border-bottom-info flex-column bd-highlight mb-3 w-75">
+                    <div class="d-flex border-bottom-info flex-column bd-highlight mb-3 w-75">
                         <div class="mb-auto p-2 bd-highlight">
                             <div class="user-account d-flex mr-4">
                                 <div class="avatar">
@@ -52,25 +51,27 @@
                             </div>
                         </div>
                         <div class="mb-5 p-3 bd-highlight">
-                            <p class="text-lg-left text-primary">[Chủ đề]:&nbsp;<span name="title">{{ $question->title }}</span></p>
-                            <p class="text-lg-left text-secondary">[Câu hỏi]:&nbsp;<span class="text-dark" name="content" >{{ $question->content }}</span></p>
+                            <p class="q_title text-lg-left text-secondary">[Chủ đề]:&nbsp;<a href="{{ route('ansQuestion', $question->id) }}" name="title">{{ $question->title }}</a></p>
+                            <p class="q_content text-lg-left text-secondary">[Câu hỏi]:&nbsp;<span class="text-dark" name="content" >{{ $question->content }}</span></p>
                             <p class="text-small text-secondary">Cập nhật lúc: {{ (new \DateTime($question->updated_at))->format('H:i d-m-Y') }}</p>
                         </div>
 
-                    </form>
+                    </div>
 
                     <div class="d-flex align-items-end flex-column bd-highlight mb-3" >
+                        @if(Auth::user()->name == $question->name)
                         <div class="p-2 bd-highlight">
-                            <button onclick="javascript:editModal(this)" class="btn bg-white  h-100"
+                            <button onclick="javascript:editModal('wrap_{{$i}}',{{ $question->id }});" class="btn bg-white h-100"
                                 data-toggle="modal" data-target="#editModal">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </button>
                             
-                            <button onclick="javascript:deleteModal(this);" class="btn bg-white h-100"
+                            <button onclick="javascript:deleteModal('wrap_{{$i}}',{{ $question->id }});" class="btn bg-white h-100"
                                 data-toggle="modal" data-target="#deleteModal">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </button>
                         </div>
+                        @endif
                         <div class="mt-auto  bd-highlight">
                             <p class="text-secondary">Số lượt truy cập:&nbsp;<span class="badge badge-success">{{ $question->ans_count }}</span></p>
                         </div>
@@ -89,7 +90,7 @@
                         <h4 class="modal-title text-primary font-weight-bold">Thêm câu hỏi</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
-                    <form action="{{ route('addQuestion', $session_id) }}" method="post">
+                    <form action="{{ route('addQuestion', $session->id) }}" method="post">
                         @csrf
                         <div class="modal-body d-flex flex-column">
                             <label for="">Chủ đề:</label>
@@ -107,7 +108,7 @@
                             <span class="text-danger d-none"><strong>error</strong></span>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" id="" class="btn btn-success">Save</button>
+                            <button type="submit" class="btn btn-success">Save</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </form>
@@ -124,9 +125,10 @@
                         <h4 class="modal-title text-primary font-weight-bold">Sửa câu hỏi</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
-                    <form action="#" method="post">
+                    <form action="{{ route('editQuestion', $session->id) }}" method="post">
                         @csrf
                         <div id="edit-modal" class="modal-body d-flex flex-column">
+                            <input name="e_id" class="e-id d-none" />
                             <label for="">Chủ đề:</label>
                             <div>
                                 <input onkeyup="javascript:validate(this);" type="text" name="name"
@@ -162,11 +164,11 @@
                         <h4 class="modal-title text-primary font-weight-bold">Cảnh báo xóa câu hỏi</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
-                    <form action="#" method="post">
+                    <form action="{{ route('deleteQuestion', $session->id) }}" method="post">
                         @csrf
                         <div class="modal-body d-flex flex-column">
-                            <p>Bạn có chắc chắn muốn xóa "<span id="del-name"></span>"?</p>
-                            <input class="d-none" id="del-id" name="del_id" />
+                            <p>Bạn có chắc chắn muốn xóa câu "<span id="del-name"></span>"?</p>
+                            <input class="d-none" id="del-id" name="id" />
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-danger">Xóa</button>

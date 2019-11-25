@@ -33,8 +33,8 @@
                 @guest
                 
                     <div class="ml-auto mr-4">
-                        <a class="text-white m-2" href="{{ route('login') }}">Login</a>
-                        <a class="text-white" href="{{ route('register') }}">Register</a>
+                        <a class="text-white m-2 p-2 bg-dark shadow" href="{{ route('login') }}">Login</a>
+                        <a class="text-white p-2 bg-dark shadow" href="{{ route('register') }}">Register</a>
                     </div>
                 
                 @else
@@ -70,7 +70,11 @@
 
         </div>
         <main class="py-4">
-            @yield('content')
+            @if(Auth::check())
+                @yield('content')
+            @else
+                @yield('guest')
+            @endif
         </main>
     </div>
 </body>

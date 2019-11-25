@@ -55,6 +55,7 @@
         </form>
         
     </div>
+    @hasrole('admin')
     <div class="row px-4 py-2">
         <button data-toggle="modal" data-target="#addModal" class="btn btn-success rounded-circle">
             <span class="glyphicon glyphicon-plus"></span>
@@ -65,7 +66,7 @@
             </script>
         @enderror
     </div>
-    
+    @endhasrole
     <div class="row content mx-auto d-flex flex-column align-items-center">
         @if(!empty($sessions))
             <table class="table-bordered">
