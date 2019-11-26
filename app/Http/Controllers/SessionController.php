@@ -10,6 +10,9 @@ use App\Question;
 class SessionController extends Controller
 {
     public function show(int $id) {
+        if(Auth::guest()){
+            return redirect('home');
+        }
         $session = Session::find($id);
         $questions = DB::table('questions')
         ->where('questions.session_id', '=', $id)

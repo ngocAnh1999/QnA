@@ -21,6 +21,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/header.css') }}" rel="stylesheet">
     <link href="{{ asset('css/content.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -43,7 +44,7 @@
                     <ul class="dropdown-menu dropdown-menu-right px-4">
                         <li role="presentation" class="text-left"><a role="menuitem" href="{{ route('qna','all') }}">Phiên hỏi đáp</a></li>
                         <li class="dropdown-divider"></li>
-                        <li role="presentation" class="text-left"><a role="menuitem" href="{{ route('survey') }}">Phiên khảo sát</a></li>
+                        <li role="presentation" class="text-left"><a role="menuitem" href="{{ route('survey') }}">Thống kê</a></li>
                     </ul>
                 </div>
 
@@ -66,8 +67,6 @@
                     </div>
                 </div>
                 @endguest
-            </div>
-
         </div>
         <main class="py-4">
             @if(Auth::check())
@@ -76,6 +75,8 @@
                 @yield('guest')
             @endif
         </main>
+        <div class="row footer fixed-bottom">
+        </div>
     </div>
 </body>
 </html>

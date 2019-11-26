@@ -68,7 +68,7 @@
     </div>
     @endhasrole
     <div class="row content mx-auto d-flex flex-column align-items-center">
-        @if(!empty($sessions))
+        @if(count($sessions) > 0)
             <table class="table-bordered">
                 <thead>
                     <tr class="bg-dark text-white">
@@ -87,7 +87,12 @@
                     <tr property="{{ $session->id }}">
                         <td>{{ $i+1 }}</td>
                         <td class="td-name px-4 text-left">
+                            @if((new \DateTime($session->time_start,new DateTimeZone('Asia/Ho_Chi_Minh')))->getTimestamp() - $now->getTimestamp() <= 0 
+                            && (new \DateTime($session->time_end,new DateTimeZone('Asia/Ho_Chi_Minh')))->getTimestamp() - $now->getTimestamp() >= 0)
                             <a href="{{ route('showQuestion', $session->id) }}">{{ $session->name }}</a>
+                            @else
+                            <p>{{ $session->name }}</p>
+                            @endif
                         </td>
                         <td class="td-mota px-4 text-left">{{ $session->mota }}</td>
                         <td>{{ (new \DateTime($session->time_start))->format('H:i d-m-Y') }}</td>
@@ -102,16 +107,20 @@
                             @endif
                         </td>
                         <td>
+                            @if(Auth::user()->id == $session->user_id)
                             <button onclick="javascript:EditModal(this)" 
                                 class="btn bg-white" data-toggle="modal" data-target="#editModal">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </button>
+                            @endif
                         </td>
                         <td>
+                            @if(Auth::user()->id == $session->user_id)
                             <button onclick="javascript:DeleteModal(this);" 
                                 class="btn bg-white" data-toggle="modal" data-target="#deleteModal">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </button>
+                            @endif
                         </td>
                     </tr>
                     @endforeach
@@ -127,7 +136,7 @@
                             <h4 class="modal-title text-primary font-weight-bold">Sửa phiên</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
-                        <form action="{{ route('editSession') }}" method="post">
+                        <form action="{{ route('editSession', $selected) }}" method="post">
                             @csrf
                             <div id="edit-modal" class="modal-body d-flex flex-column">
                                 <input name="id" class="e-id d-none" />
@@ -179,7 +188,7 @@
                         <h4 class="modal-title text-primary font-weight-bold">Cảnh báo xóa phiên</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
-                    <form action="{{ route('deleteSession') }}" method="post">
+                    <form action="{{ route('deleteSession', $selected) }}" method="post">
                         @csrf
                         <div class="modal-body d-flex flex-column">
                             <p>Bạn có chắc chắn muốn xóa phiên "<span id="del-name"></span>"?</p>
@@ -202,52 +211,52 @@
             
                 <!-- Modal content-->
                 <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title text-primary font-weight-bold">Thêm phiên</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <form action="{{ route('addSession') }}" method="post">
-                    @csrf
-                    <div class="modal-body d-flex flex-column">
-                        <label for="">Tên phiên:</label>
-                        <div>
-                            <input onkeyup="javascript:validate(this);" type="text" name="name" class="w-75" value = "{{ old('name') }}"/>
-                            <span class="text-danger">&nbsp;(*)</span>
-                        </div>
-                        @error('name')
-                            <span class="text-danger"><strong>{{ $message }}</strong></span>
-                        @enderror
-                        <label for="">Mô tả:</label>
-                        <div>
-                        <textarea onkeyup="javascript:validate(this);" style="resize:none" class="w-75" name="mota" value="{{ old('mota') }}" cols="30" rows="5"></textarea>
-                            <span class="text-danger">&nbsp;(*)</span>
-                        </div>
-                        @error('mota')
-                            <span class="text-danger"><strong>{{ $message }}</strong></span>
-                        @enderror
-                        <label for="">Time start:</label>
-                        <div>
-                            <input onkeyup="javascript:validate(this);" type="datetime" class="w-75" name="time_start" value = "{{ old('time_start') }}" placeholder="H:i dd-mm-yyyy"/>
-                            <span class="text-danger">&nbsp;(*)</span>
-                        </div>
-                        @error('time_start')
-                            <span class="text-danger"><strong>{{ $message }}</strong></span>
-                        @enderror
-                        <label for="">Time end:</label>
-                        <div>
-                            <input onkeyup="javascript:validate(this);" type="datetime" class="w-75" name="time_end" value="{{ old('time_end') }}" placeholder="H:i dd-mm-yyyy">
-                            <span class="text-danger">&nbsp;(*)</span>
-                        </div>
-                        <span class="text-danger d-none"></span>
-                        @error('time_end')
-                            <span class="text-danger"><strong>{{ $message }}</strong></span>
-                        @enderror
+                    <div class="modal-header">
+                        <h4 class="modal-title text-primary font-weight-bold">Thêm phiên</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
-                    <div class="modal-footer">
-                        <button type="submit" id="" class="btn btn-success">Save</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </form>
+                    <form action="{{ route('addSession', $selected) }}" method="post">
+                        @csrf
+                        <div class="modal-body d-flex flex-column">
+                            <label for="">Tên phiên:</label>
+                            <div>
+                                <input onkeyup="javascript:validate(this);" type="text" name="name" class="w-75" value = "{{ old('name') }}"/>
+                                <span class="text-danger">&nbsp;(*)</span>
+                            </div>
+                            @error('name')
+                                <span class="text-danger"><strong>{{ $message }}</strong></span>
+                            @enderror
+                            <label for="">Mô tả:</label>
+                            <div>
+                            <textarea onkeyup="javascript:validate(this);" style="resize:none" class="w-75" name="mota" value="{{ old('mota') }}" cols="30" rows="5"></textarea>
+                                <span class="text-danger">&nbsp;(*)</span>
+                            </div>
+                            @error('mota')
+                                <span class="text-danger"><strong>{{ $message }}</strong></span>
+                            @enderror
+                            <label for="">Time start:</label>
+                            <div>
+                                <input onkeyup="javascript:validate(this);" type="datetime" class="w-75" name="time_start" value = "{{ old('time_start') }}" placeholder="H:i dd-mm-yyyy"/>
+                                <span class="text-danger">&nbsp;(*)</span>
+                            </div>
+                            @error('time_start')
+                                <span class="text-danger"><strong>{{ $message }}</strong></span>
+                            @enderror
+                            <label for="">Time end:</label>
+                            <div>
+                                <input onkeyup="javascript:validate(this);" type="datetime" class="w-75" name="time_end" value="{{ old('time_end') }}" placeholder="H:i dd-mm-yyyy">
+                                <span class="text-danger">&nbsp;(*)</span>
+                            </div>
+                            <span class="text-danger d-none"></span>
+                            @error('time_end')
+                                <span class="text-danger"><strong>{{ $message }}</strong></span>
+                            @enderror
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" id="" class="btn btn-success">Save</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
                 </div>
             
             </div>

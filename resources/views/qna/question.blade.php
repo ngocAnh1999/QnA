@@ -34,7 +34,7 @@
         </div>
         <div class="row content mx-auto d-flex flex-column align-items-center">
             <!--nd content  -->
-            @if (!isset($questions))
+            @if (count($questions)== 0)
                 <div class="text-secondary t_max">Chưa có câu hỏi nào!!!</div>
             @else
             @foreach ($questions as $i => $question)

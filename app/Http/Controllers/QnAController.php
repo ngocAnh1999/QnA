@@ -11,6 +11,9 @@ class QnAController extends Controller
 {
     //
     public function index(string $select) {
+        if(Auth::guest()){
+            return redirect('home');
+        }
         $me = $this;
         $now = Carbon::now('Asia/Ho_Chi_Minh');
         $session = null;
@@ -34,7 +37,8 @@ class QnAController extends Controller
         }
         return view('qna.index',[
             'sessions' => $session,
-            'now' => $now
+            'now' => $now,
+            'selected'=> $select
         ]);
     }
     public function all() {
@@ -73,7 +77,10 @@ class QnAController extends Controller
 
     }
 
-    public function create(Request $request) {
+    public function create(Request $request, string $select) {
+        if(Auth::guest()){
+            return redirect('home');
+        }
         $this->validate($request, [
             'name'=>'required|string|max:255',
             'mota'=>'required|string|max:1000',
@@ -90,14 +97,14 @@ class QnAController extends Controller
         $session->time_start = $time_start;
         $session->time_end = $time_end;
         $session->save();
-        return redirect('qna');
+        return redirect()->route('qna', ['select' => $select]);
     }
-    public function delete(Request $request) {
+    public function delete(Request $request, string $select) {
         $session = new Session;
         $session->findOrFail($request->del_id)->delete();
-        return redirect('qna');
+        return redirect()->route('qna', ['select' => $select]);
     }
-    public function edit(Request $request) {
+    public function edit(Request $request, string $select) {
         $id = $request->id;
         $session = Session::find($id);
         $session->name = $request->name;
@@ -105,6 +112,6 @@ class QnAController extends Controller
         $session->time_start = \DateTime::createFromFormat("H:i d-m-Y", $request->time_start);
         $session->time_end = \DateTime::createFromFormat("H:i d-m-Y", $request->time_end);
         $session->save();
-        return redirect('qna');
+        return redirect()->route('qna', ['select' => $select]);
     }
 }
