@@ -23,8 +23,9 @@ Route::post('/admin/edit','adminController@edit')->name('editRole');
 // Route::post('/admin/delete','adminController@delete')->name('deleteRole');
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/survey', 'SurveyController@index')->name('survey');
-Route::get('/survey/create', 'SurveyController@create')->name('createSurvey');
+
+Route::get('/survey/{selected}', 'SurveyController@index')->name('survey');
+Route::get('/survey/new_survey', 'SurveyController@newSurvey')->name('newSurvey');
 
 Route::get('/qna/{selected}','QnAController@index')->name('qna');
 Route::post('/qna/{selected}/add', 'QnAController@create')->name('addSession');

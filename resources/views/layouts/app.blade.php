@@ -44,7 +44,7 @@
                     <ul class="dropdown-menu dropdown-menu-right px-4">
                         <li role="presentation" class="text-left"><a role="menuitem" href="{{ route('qna','all') }}">Phiên hỏi đáp</a></li>
                         <li class="dropdown-divider"></li>
-                        <li role="presentation" class="text-left"><a role="menuitem" href="{{ route('survey') }}">Phiên khảo sát</a></li>
+                        <li role="presentation" class="text-left"><a role="menuitem" href="{{ route('survey','all') }}">Phiên khảo sát</a></li>
                         @hasrole('super')
                         <li class="dropdown-divider"></li>
                         <li role="presentation" class="text-left"><a role="menuitem" href="{{ route('admin') }}">Admin</a></li>
