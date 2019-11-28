@@ -18,6 +18,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/admin','adminController@index')->name('admin');
+Route::post('/admin/add','adminController@add')->name('addRole');
+Route::post('/admin/edit','adminController@edit')->name('editRole');
+// Route::post('/admin/delete','adminController@delete')->name('deleteRole');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/survey', 'SurveyController@index')->name('survey');

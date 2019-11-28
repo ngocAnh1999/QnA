@@ -22,7 +22,5 @@ class SurveyController extends Controller
             'sessions'=>$sesions
         ]);
     }
-    public function create() {
-    	return view('survey.createSurvey');
-    }
+    
 }

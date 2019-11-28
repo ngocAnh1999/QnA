@@ -47,7 +47,9 @@
                 @endhasrole
             </ul>
         </div>
-        
+        <div class="text-secondary">
+            <h2 class="my-auto">Phiên hỏi đáp</h2>
+        </div>
         {{-- <form class="search-cls" action="#" method="post">
             @csrf
                 <input class="h-100" name="search" placeholder="Tìm kiếm" />
@@ -69,15 +71,15 @@
     @endhasrole
     <div class="row content mx-auto d-flex flex-column align-items-center">
         @if(count($sessions) > 0)
-            <table class="table-striped">
+            <table class="table table-striped">
                 <thead>
-                    <tr class="bg-dark text-white">
+                    <tr>
                         <th scope="col">STT</th>
-                        <th class="text-left px-4" scope="col">Session name</th>
-                        <th class="text-left px-4" scope="col">Session mô tả</th>
-                        <th scope="col">Time start</th>
-                        <th scope="col">Time end</th>
-                        <th scope="col">Status</th>
+                        <th class="text-left px-4" scope="col">Tên phiên</th>
+                        <th class="text-left px-4" scope="col">Mô tả</th>
+                        <th scope="col">Thời gian bắt đầu</th>
+                        <th scope="col">Thời gian kết thúc</th>
+                        <th scope="col">Trạng thái</th>
                         @hasrole('admin')
                         <th>Edit</th>
                         <th>Delete</th>
