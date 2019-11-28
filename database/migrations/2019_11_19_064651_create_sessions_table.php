@@ -19,6 +19,7 @@ class CreateSessionsTable extends Migration
             $table->string('mota');
             $table->bigInteger('user_id');
             $table->bigInteger('type_id');
+            $table->boolean('status');
             $table->dateTime('time_start');
             $table->dateTime('time_end');
             $table->timestamps();

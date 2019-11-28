@@ -87,7 +87,7 @@
 
                 <div class="links">
                     <a href="#">About</a>
-                    <a href="#">GitHub</a>
+                    <a href="https://github.com/ngocAnh1999/QnA">GitHub</a>
                 </div>
             </div>
         </div>
