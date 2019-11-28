@@ -48,11 +48,11 @@
             </ul>
         </div>
         
-        <form class="search-cls" action="#" method="post">
+        {{-- <form class="search-cls" action="#" method="post">
             @csrf
                 <input class="h-100" name="search" placeholder="Tìm kiếm" />
                 <button class="ml-2 px-4 btn btn-success h-100" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-        </form>
+        </form> --}}
         
     </div>
     @hasrole('admin')
@@ -69,17 +69,19 @@
     @endhasrole
     <div class="row content mx-auto d-flex flex-column align-items-center">
         @if(count($sessions) > 0)
-            <table class="table-bordered">
+            <table class="table-striped">
                 <thead>
                     <tr class="bg-dark text-white">
                         <th scope="col">STT</th>
-                        <th scope="col">Session name</th>
-                        <th scope="col">Session mô tả</th>
+                        <th class="text-left px-4" scope="col">Session name</th>
+                        <th class="text-left px-4" scope="col">Session mô tả</th>
                         <th scope="col">Time start</th>
                         <th scope="col">Time end</th>
                         <th scope="col">Status</th>
+                        @hasrole('admin')
                         <th>Edit</th>
                         <th>Delete</th>
+                        @endhasrole
                     </tr>
                 </thead>
                 <tbody>
@@ -108,18 +110,16 @@
                         </td>
                         <td>
                             @if(Auth::user()->id == $session->user_id)
-                            <button onclick="javascript:EditModal(this)" 
-                                class="btn bg-white" data-toggle="modal" data-target="#editModal">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                            </button>
+                                <span data-toggle="modal" data-target="#editModal"
+                                onclick="javascript:EditModal(this)" 
+                                 class="glyphicon glyphicon-pencil"></span>
                             @endif
                         </td>
                         <td>
                             @if(Auth::user()->id == $session->user_id)
-                            <button onclick="javascript:DeleteModal(this);" 
-                                class="btn bg-white" data-toggle="modal" data-target="#deleteModal">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </button>
+                                <span onclick="javascript:DeleteModal(this);"
+                                data-toggle="modal" data-target="#deleteModal"
+                                class="glyphicon glyphicon-trash"></span>
                             @endif
                         </td>
                     </tr>

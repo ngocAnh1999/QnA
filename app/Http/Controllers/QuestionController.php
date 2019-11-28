@@ -25,6 +25,7 @@ class QuestionController extends Controller
         ->select('answers.id','answers.content', 'answers.status', 'answers.updated_at', 'users.name')
         ->join('answer_user', 'answers.id', '=', 'answer_user.answer_id')
         ->join('users', 'answer_user.user_id','=','users.id')
+        ->orderBy('answers.status', 'desc')
         ->get();
         return view('qna.insertAnswer',[
             'answers'=> $answers,
@@ -52,6 +53,36 @@ class QuestionController extends Controller
         $answer->save();
         $answer->pickedByUsers()->toggle($user);
         return redirect()->route('ansQuestion',['id' => $id]);
+    }
+    public function edit(Request $request, int $id) {
+        $now = Carbon::now('Asia/Ho_Chi_Minh');
+        $answer = Answer::find($request->e_id);
+        $answer->content = $request->noidung;
+        $answer->updated_at = $now;
+        $answer->save();
+
+        return redirect()->route('ansQuestion',['id' => $id]);
+    }
+    public function delete(Request $request, int $id) {
+        $answer = new Answer;
+        $answer->findOrFail($request->del_id)->delete();
+
+        return redirect()->route('ansQuestion',['id' => $id]);
+    }
+
+    public function accept(int $id) {
+        $answer = Answer::find($id);
+        $question = $answer->question;
+        $answer->status = 1;
+        $answer->save();
+        return redirect()->route('ansQuestion',['id' => $question->id]);
+    }
+    public function deaccept(int $id) {
+        $answer = Answer::find($id);
+        $question = $answer->question;
+        $answer->status = 0;
+        $answer->save();
+        return redirect()->route('ansQuestion',['id' => $question->id]);
     }
 }
 

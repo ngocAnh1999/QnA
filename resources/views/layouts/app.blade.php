@@ -76,6 +76,7 @@
             @endif
         </main>
         <div class="row footer fixed-bottom">
+            <h3 class="text-white m-auto">Được tạo bởi nhóm 12 - CNTT</h3>
         </div>
     </div>
 </body>

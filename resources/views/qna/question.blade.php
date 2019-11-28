@@ -17,13 +17,13 @@
                 <span class="glyphicon glyphicon-chevron-right"></span>
                 <p class="text-secondary">&nbsp;{{ $session->name }}</p>
             </div>
-            <form class=" search-cls" action="#" method="post">
+            {{-- <form class=" search-cls" action="#" method="post">
                 @csrf
                         <input type="hidden" name="_token" value="ZgU7Yorh1VFOkX8Snm3bIC9WngMAPQOYiOU7N7Jw"> 
                         <input class="h-100" name="search" placeholder="Tìm kiếm">
                         <button class="ml-2 px-4 btn btn-success h-100" type="submit"><span
                                 class="glyphicon glyphicon-search"></span></button>
-            </form>
+            </form> --}}
 
         </div>
 

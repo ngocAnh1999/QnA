@@ -33,3 +33,8 @@ Route::post('/qna/session/{id}/delete', 'SessionController@delete')->name('delet
 
 Route::get('/qna/q/{id}', 'QuestionController@show')->name('ansQuestion');
 Route::post('/qna/q/{id}/add', 'QuestionController@create')->name('addAnswer');
+Route::post('/qna/q/{id}/edit', 'QuestionController@edit')->name('editAnswer');
+Route::post('/qna/q/{id}/delete', 'QuestionController@delete')->name('delAnswer');
+
+Route::get('/qna/q/{id}/accept', 'QuestionController@accept')->name('accept');
+Route::get('/qna/q/{id}/deaccept', 'QuestionController@deaccept')->name('de_accept');
