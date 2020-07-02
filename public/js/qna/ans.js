@@ -1,4 +1,5 @@
 function editAns(id, content) {
+    debugger
     let e_content = document.getElementById("edit-modal").querySelectorAll("textarea")[0];
     e_content.value = content;
     let e_id = document.getElementById("edit-modal").querySelectorAll("input.id")[0];

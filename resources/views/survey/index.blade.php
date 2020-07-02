@@ -1,5 +1,4 @@
 @extends('layouts.app')
-@section('title', 'Phiên khảo sát')
 @section('content')
 @push('styles')
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
@@ -44,78 +43,63 @@
                     </li>
                     @endhasrole
                 </ul>
-                <a class="py-2 px-3 border-right nav-item" href="{{ route('newSurvey') }}">Tạo phiên mới</a>
-                <a class="py-2 px-3 nav-item" href="#">
+                @hasrole('admin')
+                <a class="py-2 px-3 border-right nav-item text-success" 
+                    data-toggle="modal" data-target="#newModal">Tạo phiên mới
+                </a>
+                <a class="py-2 px-3 nav-item" href="{{ route('statistic') }}">
                     <span class="glyphicon glyphicon-indent-left"></span>
                     Thống kê
-                </a> 
+                </a>
+                @endhasrole
                 <div class="text-secondary ml-auto">
                     <h2 class="my-auto">Phiên khảo sát</h2>
                 </div>
             </nav>
-            
+            <div class="modal fade" id="newModal">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                  
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                      <h4 class="modal-title text-info">Tạo phiên khảo sát</h4>
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    
+                    <!-- Modal body -->
+                    <form action="{{ route('createSurvey') }}" method="post">
+                        @csrf
+                        <div class="modal-body text-left">
+                            <label class="text-secondary">Tên phiên:</label>
+                            <div>
+                            <input type="text" name="sur_name" placeholder="Nhập tên phiên"/>
+                            <span class="text-danger">(*)</span>
+                            </div>
+                            <label class="text-secondary mt-2">Mô tả:</label>
+                            <div>
+                                <input type="text" name="sur_des" placeholder="Nhập mô tả" />
+                                <span class="text-danger">(*)</span>
+                            </div>
+                            <label class="text-secondary w-100 mt-2">Mật khẩu phiên (nếu có):</label>
+                            <input type="password" name="sur_pass" />
+                        </div>
+                        
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button class="btn btn-success" type="submit">Chuyển tiếp</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                        </div>
+                    </form>
+                    
+                  </div>
+                </div>
+              </div>
             
         </div>
-        {{-- @if(sizeof($sessions) > 0)
-        <div class="w-100 t_max text-success">Thống kê phiên làm việc</div>
-        @else 
-        <div class="t_max text-secondary">Chưa có phiên nào!</div>
-        @endif --}}
 
         <div class="m-2"></div>
-        <div class="w-100">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">STT</th>
-                        <th scope="col">Phiên khảo sát</th>
-                        <th scope="col">Mô tả</th>
-                        <th scope="col">Người tạo</th>
-                        <th scope="col">trạng thái</th>
-                        @hasrole('admin')
-                        <th scope="col">Chỉnh sửa</th>
-                        <th scope="col">Xóa</th>
-                        @endhasrole
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td><a href="#">Phiên khảo sát ABCD</a></td>
-                        <td>Mo ta</td>
-                        <td><a href="#">admin</a></td>
-                        <td data-toggle="tooltip" title="Bị khóa">
-                            <span class="text-danger glyphicon glyphicon-ban-circle"></span>
-                        </td>
-                        @hasrole('admin')
-                        <td>
-                            <span class="glyphicon glyphicon-pencil"></span>
-                        </td>
-                        <td>
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </td>
-                        @endhasrole
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td><a href="#">Phiên khảo sát ABCD</a></td>
-                        <td>Mo ta</td>
-                        <td><a href="#">admin</a></td>
-                        <td data-toggle="tooltip" title="Đang mở">
-                            <span class="text-success glyphicon glyphicon-ok-sign"></span>
-                        </td>
-                        @hasrole('admin')
-                        <td>
-                            <span class="glyphicon glyphicon-pencil"></span>
-                        </td>
-                        <td>
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </td>
-                        @endhasrole
-                    </tr>
-                </tbody>
-            </table>
-
+        <div class="row w-100">
+            @yield('survey_content')
         </div>
 
 

@@ -8,6 +8,7 @@ use DB;
 use Carbon\Carbon;
 use App\Session;
 use App\Question;
+use App\User;
 
 class SurveyController extends Controller
 {
@@ -17,7 +18,6 @@ class SurveyController extends Controller
             return redirect('home');
         }
         $me = $this;
-        $now = Carbon::now('Asia/Ho_Chi_Minh');
         $session = null;
         switch($select) {
             case 'all': {
@@ -29,61 +29,89 @@ class SurveyController extends Controller
             break;
             }
             case 'opened': {
-                $session = $me->opened($now);
+                $session = $me->opened();
             break;
             }
             case 'locked': {
-                $session = $me->locked($now);
+                $session = $me->locked();
             break;
             }
         }
-        return view('survey.index',[
+        return view('survey.listSurvey',[
             'sessions' => $session,
-            'now' => $now,
-            'selected'=> $select
+            'selected'=> $select,
         ]);
     }
     public function all() {
         $session = DB::table('sessions')
-                        ->where('type_id', 2)
-                        ->orderBy('updated_at', 'desc')
+                        ->select('sessions.id','sessions.name','sessions.mota','sessions.required',DB::raw('users.name as user_name'))
+                        ->join('users','users.id','=','sessions.user_id')
+                        ->where('sessions.type_id', 2)
+                        ->orderBy('sessions.updated_at', 'desc')
                         ->get();
         return $session;
     }
     public function own() {
         $user = Auth::user();
-        $session = $user->sessions->where('type_id', 2);
+        $session = DB::table('sessions')
+                        ->select('sessions.id','sessions.name','sessions.mota','sessions.required',DB::raw('users.name as user_name'))
+                        ->join('users','users.id','=','sessions.user_id')
+                        ->whereRaw("sessions.type_id = 2 and sessions.user_id = $user->id")
+                        ->orderBy('sessions.updated_at', 'desc')
+                        ->get();
         return $session;
     }
-    public function opened($now) {
+    public function opened() {
         $session = DB::table('sessions')
-                    ->where([
-                        ['type_id','=', 2],
-                        ['required','is',null]
-                    ])
-                    ->orderBy('updated_at', 'desc')
+                    ->select('sessions.id','sessions.name','sessions.mota','sessions.required',DB::raw('users.name as user_name'))
+                    ->join('users','users.id','=','sessions.user_id')
+                    ->whereRaw("sessions.type_id = 2 and sessions.required is null")
+                    ->orderBy('sessions.updated_at', 'desc')
                     ->get();
         return $session;
 
     }
-    public function locked($now) {
+    public function locked() {
         $session = DB::table('sessions')
-                    ->where([
-                        ['type_id','=', 2],
-                        ['required','is not',null]
-                    ])
-                    ->orderBy('updated_at', 'desc')
+                    ->select('sessions.id','sessions.name','sessions.mota','sessions.required',DB::raw('users.name as user_name'))
+                    ->join('users','users.id','=','sessions.user_id')
+                    ->whereRaw("sessions.type_id = 2 and sessions.required is not null")
+                    ->orderBy('sessions.updated_at', 'desc')
                     ->get();
         return $session;
 
     }
     
-    public function newSurvey() {
-        return view('survey.index',[
-            'selected'=> 'own'
-        ]);
+    public function create(Request $request) {
+        $user = Auth::user();
+        $session = new Session;
+        $session->name = $request->sur_name;
+        $session->mota = $request->sur_des;
+        $session->user_id = $user->id;
+        $session->type_id = 2;
+        if($request->sur_pass != null || $request->sur_pass != "") {
+            $session->required = trim($request->sur_pass);
+        }
+        $session->save();
+        return redirect()->route('newSurvey',['id' => $session->id]);
+        
     }
-
+    
+    public function delete(int $id) {
+        $session = new Session;
+        $questions = $session->findOrFail($id)->questions;
+        foreach($questions as $question) {
+            $answers = $question->answers;
+            foreach($answers as $answer) {
+                $users = $answer->pickedByUsers;
+                $answer->pickedByUsers()->toggle($users);
+                $answer->delete();
+            }
+            $question->delete();
+        }
+        $session->findOrFail($id)->delete();
+        return redirect()->route('survey', ['select' => 'all']);
+    }
 
 
 }

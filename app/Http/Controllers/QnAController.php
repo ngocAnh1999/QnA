@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use DB;
 use App\Session;
+use App\Question;
+use App\Answer;
+use App\User;
+
 class QnAController extends Controller
 {
     //
@@ -101,6 +105,16 @@ class QnAController extends Controller
     }
     public function delete(Request $request, string $select) {
         $session = new Session;
+        $questions = $session->findOrFail($request->del_id)->questions;
+        foreach($questions as $question) {
+            $answers = $question->answers;
+            foreach($answers as $answer) {
+                $users = $answer->pickedByUsers;
+                $answer->pickedByUsers()->toggle($users);
+                $answer->delete();
+            }
+            $question->delete();
+        }
         $session->findOrFail($request->del_id)->delete();
         return redirect()->route('qna', ['select' => $select]);
     }

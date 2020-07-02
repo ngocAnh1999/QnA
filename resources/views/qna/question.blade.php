@@ -38,7 +38,7 @@
                 <div class="text-secondary t_max">Chưa có câu hỏi nào!!!</div>
             @else
             @foreach ($questions as $i => $question)
-            <div id="wrap_{{$i}}" class="wrap-content p-3 border bg-light d-flex justify-content-between w-75">
+                <div id="wrap_{{$i}}" class="wrap-content p-3 border bg-light d-flex justify-content-between w-75">
 
                     <div class="d-flex border-bottom-info flex-column bd-highlight mb-3 w-75">
                         <div class="mb-auto p-2 bd-highlight">

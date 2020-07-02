@@ -43,10 +43,12 @@
                 </div>
             </div>
             <div class="mb-5 p-3 bd-highlight">
-                <p class="text-lg-left text-primary">[Chủ đề]:&nbsp;<a href="#" name="title">{{ $question->title }}</a></p>
-            <p class="text-lg-left text-secondary">[Câu hỏi]:&nbsp;
-                <span class="text-dark" name="content" >{{ $question->content }}</span>
-            </p>
+                <p class="text-lg-left text-primary">[Chủ đề]:&nbsp;
+                    <a href="#" name="title">{{ $question->title }}</a>
+                </p>
+                <p class="text-lg-left text-secondary">[Câu hỏi]:&nbsp;
+                    <span class="text-dark" name="content" >{{ $question->content }}</span>
+                </p>
                 <p class="text-small text-secondary">Cập nhật lúc: {{ (new \DateTime($question->updated_at))->format('H:i d-m-Y') }}</p>
             </div>
 
@@ -81,9 +83,10 @@
                                 Admin đã phê duyệt
                             </p>
                             @if(Auth::user()->id == $session->user_id && $answer->name != Auth::user()->name)
-                            <a class="ml-4 btn btn-light" href="{{ route('de_accept', $answer->id) }}">
-                                <span class="glyphicon glyphicon-remove"></span>
-                                &nbsp;Hủy</a>
+                                <a class="ml-4 btn btn-light" href="{{ route('de_accept', $answer->id) }}">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                    &nbsp;Hủy
+                                </a>
                             @endif
                         @else 
                             @if(Auth::user()->id == $session->user_id)
@@ -98,49 +101,50 @@
                             
                         @endif
                     </div>
-                    @if(Auth::user()->name == $answer->name && ( $answer->status == 0 || Auth::user()->id == $session->user_id ))
-                    <div>
-                        <button type="button" onclick="javascript:editAns( '{{ $answer->id }}' ,'{{ $answer->content }}')" class="btn btn-primary mr-2" data-toggle="modal" data-target="#modalEdit">Sửa</button>
-                        <button type="button" onclick="javascript:deleteAns('{{ $answer->id }}' ,'{{ $answer->content }}')" class="btn btn-primary" data-toggle="modal" data-target="#modalDelete">Xóa</button>
-                    </div>
+                    @if (Auth::user()->name == $answer->name && ( $answer->status == 0 || Auth::user()->id == $session->user_id ))
+                        <div>
+                            <button type="button" onclick="javascript:editAns('{{ $answer->id }}','{{ $answer->content }}');" 
+                                class="btn btn-primary mr-2" 
+                                data-toggle="modal" data-target="#modalEdit">Sửa
+                            </button>
+                            <button type="button" onclick="javascript:deleteAns('{{ $answer->id }}','{{ $answer->content }}');" 
+                                class="btn btn-primary" 
+                                data-toggle="modal" data-target="#modalDelete">Xóa
+                            </button>
+                        </div>
                     @endif 
                 </div>
             </div>
             @endforeach
-            
         </div>
-        {{-- <div class="bg-white my-4 d-flex justify-content-around">
-            <button type="button" class="btn btn-link mr-10"> << Câu hỏi trước</button>
-            <button type="button" class="btn btn-link mr-5" > Câu hỏi sau >> </button>  
-        </div> --}}
         <div class="modal" id="modalDelete">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-        
-                      <!-- Modal Header -->
-                      <div class="modal-header">
-                        <h4 class="modal-title">Cảnh báo xóa câu trả lời</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                      </div>
-        
-                      <!-- Modal body -->
-                    <form id="del_modal" action="{{ route('delAnswer', $question->id) }}" method="post">
-                    @csrf
-                        <div class="modal-body">
-                            <input class="d-none del-id" name="del_id" />
-                            <p>
-                                Bạn có muốn xóa câu trả lời "<span id="del-name" name="del_name"></span>" không ?
-                            </p>
-                        </div>
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
     
-                        <!-- Modal footer -->
-                        <div class="modal-footer">
-                        <button type="submit" class="btn btn-danger" >Xóa</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                    </form>
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                    <h4 class="modal-title">Cảnh báo xóa câu trả lời</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
+    
+                    <!-- Modal body -->
+                <form id="del_modal" action="{{ route('delAnswer', $question->id) }}" method="post">
+                @csrf
+                    <div class="modal-body">
+                        <input class="d-none del-id" name="del_id" />
+                        <p>
+                            Bạn có muốn xóa câu trả lời "<span id="del-name" name="del_name"></span>" không ?
+                        </p>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger" >Xóa</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
                 </div>
+            </div>
         </div>  
         <div id="modalEdit" class="modal fade" role="dialog">
             <div class="modal-dialog modal-dialog-centered">

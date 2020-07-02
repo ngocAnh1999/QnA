@@ -13,12 +13,14 @@
         
         <style>
             html, body {
-                background-color: #fff;
-                color: #636b6f;
+                /* background-color: #fff; */
+                color: #ffffff;
                 font-family: 'Nunito', sans-serif;
                 font-weight: 200;
                 height: 100vh;
                 margin: 0;
+                background: url('../storage/image/bg_anq.jpg') no-repeat center;
+                background-size: cover;
             }
 
             .full-height {
@@ -50,7 +52,7 @@
             }
 
             .links > a {
-                color: #636b6f;
+                color: #FFF;
                 padding: 0 25px;
                 font-size: 13px;
                 font-weight: 600;

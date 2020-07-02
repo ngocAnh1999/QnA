@@ -1,10 +1,13 @@
 @extends('layouts.app')
 
 @section('guest')
+@push('styles')
+    <link href="{{ asset('css/bg_body.css') }}" rel="stylesheet">
+@endpush
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card bg-white shadow">
                 <div class="card-header t_max text-center text-info">{{ __('Register') }}</div>
 
                 <div class="card-body">

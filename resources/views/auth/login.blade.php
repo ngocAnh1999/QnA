@@ -1,14 +1,16 @@
 @extends('layouts.app')
 
 @section('guest')
-
+@push('styles')
+    <link href="{{ asset('css/bg_body.css') }}" rel="stylesheet">
+@endpush
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header t_max text-center text-info">{{ __('Login') }}</div>
 
-                <div class="card-body">
+                <div class="card-body bg-white shadow">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 

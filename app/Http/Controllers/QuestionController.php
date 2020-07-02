@@ -65,6 +65,9 @@ class QuestionController extends Controller
     }
     public function delete(Request $request, int $id) {
         $answer = new Answer;
+        $answer->findOrFail($request->del_id)
+                ->pickedByUsers()
+                ->toggle($answer->pickedByUsers);
         $answer->findOrFail($request->del_id)->delete();
 
         return redirect()->route('ansQuestion',['id' => $id]);

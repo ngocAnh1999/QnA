@@ -24,8 +24,16 @@ Route::post('/admin/edit','adminController@edit')->name('editRole');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/survey/statistic', 'StatisticController@show')->name('statistic');
+Route::get('/survey/statistic/{id}','StatisticController@index')->name('indexStatistic');
 Route::get('/survey/{selected}', 'SurveyController@index')->name('survey');
-Route::get('/survey/new_survey', 'SurveyController@newSurvey')->name('newSurvey');
+Route::post('/survey/create', 'SurveyController@create')->name('createSurvey');
+Route::get('/survey/delete/{id}', 'SurveyController@delete')->name('deleteSurvey');
+
+Route::get('/survey/new_survey/{id}', 'CreateSuveyController@show')->name('newSurvey');
+Route::post('/survey/{id}/save', 'CreateSuveyController@saveQuestion')->name('saveQuestion');
+Route::post('/survey/answer', 'AnswerSurveyController@answer')->name('answerSurvey');
+Route::post('/survey/submitAnswer','AnswerSurveyController@submitAnswer')->name('submitAnswer');
 
 Route::get('/qna/{selected}','QnAController@index')->name('qna');
 Route::post('/qna/{selected}/add', 'QnAController@create')->name('addSession');

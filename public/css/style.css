@@ -18,6 +18,7 @@ a {
 a:hover{
     color: #8B0000;
     text-decoration: none;
+    cursor: pointer !important;
 }
 button:hover {
     cursor: pointer !important;
@@ -79,3 +80,7 @@ label {
     color: #4e4e4e;
 }
 
+.radio {
+    width: 16px !important;
+    height: 16px !important;
+}
